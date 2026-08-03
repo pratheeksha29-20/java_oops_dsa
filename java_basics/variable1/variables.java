@@ -1,5 +1,5 @@
 
-package java_oops_dsa.java_basics;
+package java_oops_dsa.java_basics.variable1;
 import java.util.*;
 public class variables {
 public static void main(String[]args){
