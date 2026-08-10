@@ -1,4 +1,4 @@
-package java_oops_dsa.java_basics.variable1;
+package variable1;
 
 import java.util.*;
 

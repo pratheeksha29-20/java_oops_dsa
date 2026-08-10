@@ -1,4 +1,4 @@
-package java_oops_dsa.java_basics.methods;
+package methods;
 
 public class method {
 

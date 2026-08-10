@@ -1,4 +1,4 @@
-package java_oops_dsa.java_basics.arrays;
+package arrays;
 public class array_objects {
   public static void main(String[] args) {
     // Create an array of objects declaration and initialization

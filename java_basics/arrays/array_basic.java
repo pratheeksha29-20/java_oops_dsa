@@ -1,4 +1,4 @@
-package java_oops_dsa.java_basics.arrays;
+package arrays;
 
 public class array_basic {
     public static void main(String [] args){

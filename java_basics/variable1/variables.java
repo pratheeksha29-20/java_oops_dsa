@@ -1,6 +1,5 @@
 
-package java_oops_dsa.java_basics.variable1;
-import java.util.*;
+package variable1;
 public class variables {
 public static void main(String[]args){
     int a = 10;
