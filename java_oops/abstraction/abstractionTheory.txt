@@ -1,0 +1,606 @@
+/*
+===============================================================================
+                         ABSTRACTION — REVISION NOTES
+===============================================================================
+
+WHAT IS ABSTRACTION?
+--------------------
+
+Abstraction means:
+
+    Hiding implementation details
+    +
+    Showing only essential functionality.
+
+Think:
+
+    WHAT → exposed
+    HOW  → hidden
+
+
+Example:
+
+    car.start();
+
+We know WHAT the method does.
+
+We don't need to know HOW the engine internally starts.
+
+
+===============================================================================
+WHY ABSTRACTION?
+===============================================================================
+
+Without abstraction:
+
+    User
+      ↓
+    sees all implementation details
+      ↓
+    complexity increases
+
+
+With abstraction:
+
+    User
+      ↓
+    essential operations
+      ↓
+    implementation hidden
+
+
+Main benefits:
+
+    • Reduces complexity
+    • Hides unnecessary implementation details
+    • Provides a clear interface
+    • Allows different implementations
+    • Makes large programs easier to manage
+
+
+===============================================================================
+HOW JAVA ACHIEVES ABSTRACTION
+===============================================================================
+
+Java mainly uses:
+
+                ABSTRACTION
+                     |
+             ┌───────┴───────┐
+             ↓               ↓
+      Abstract Class      Interface
+
+
+===============================================================================
+ABSTRACT CLASS
+===============================================================================
+
+Declared using:
+
+    abstract class Animal {
+
+    }
+
+
+An abstract class:
+
+    • Cannot be directly instantiated.
+    • Can contain abstract methods.
+    • Can contain concrete methods.
+    • Can contain variables.
+    • Can have constructors.
+    • Can be inherited by child classes.
+
+
+Example:
+
+abstract class Animal {
+
+    abstract void sound();
+
+    void eat() {
+
+        System.out.println("Eating");
+
+    }
+
+}
+
+
+===============================================================================
+ABSTRACT METHOD
+===============================================================================
+
+A method without implementation/body.
+
+Syntax:
+
+    abstract void sound();
+
+
+Notice:
+
+    No { }
+
+
+Example:
+
+abstract class Animal {
+
+    abstract void sound();
+
+}
+
+
+The child provides the implementation:
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+
+        System.out.println("Bark");
+
+    }
+
+}
+
+
+Think:
+
+    Parent → tells WHAT
+    Child  → tells HOW
+
+
+===============================================================================
+ABSTRACT CLASS + CONCRETE METHOD
+===============================================================================
+
+An abstract class does NOT mean every method is abstract.
+
+It can contain:
+
+    abstract method
+    +
+    concrete method
+
+
+Example:
+
+abstract class Animal {
+
+    abstract void sound();
+
+
+    void eat() {
+
+        System.out.println("Eating");
+
+    }
+
+}
+
+
+sound()
+    → abstract
+
+eat()
+    → concrete
+
+
+===============================================================================
+ABSTRACT CLASS + CONSTRUCTOR
+===============================================================================
+
+An abstract class CAN have a constructor.
+
+When a child object is created:
+
+    Parent constructor
+            ↓
+    Child constructor
+
+
+Example:
+
+abstract class Animal {
+
+    Animal() {
+
+        System.out.println("Animal");
+
+    }
+
+}
+
+
+class Dog extends Animal {
+
+    Dog() {
+
+        System.out.println("Dog");
+
+    }
+
+}
+
+
+new Dog();
+
+
+Output:
+
+Animal
+Dog
+
+
+===============================================================================
+ABSTRACT CLASS + INHERITANCE
+===============================================================================
+
+Usually:
+
+             Abstract Parent
+                   |
+             ┌─────┴─────┐
+             ↓           ↓
+            Dog         Cat
+
+
+Parent:
+
+    abstract void sound();
+
+
+Dog:
+
+    sound() → Bark
+
+
+Cat:
+
+    sound() → Meow
+
+
+The parent provides the common structure.
+
+Children provide their own implementation.
+
+
+===============================================================================
+IMPORTANT RULE
+===============================================================================
+
+If a concrete child inherits an abstract method:
+
+    It MUST implement it.
+
+
+Example:
+
+abstract class Animal {
+
+    abstract void sound();
+
+}
+
+
+class Dog extends Animal {
+
+    void sound() {
+
+        System.out.println("Bark");
+
+    }
+
+}
+
+
+If Dog does NOT implement sound():
+
+    Dog must also be declared abstract.
+
+
+===============================================================================
+ABSTRACT CLASS REFERENCE
+===============================================================================
+
+This is VALID:
+
+    Animal a = new Dog();
+
+
+This is NOT:
+
+    Animal a = new Animal();
+
+
+Why?
+
+    Animal is abstract.
+
+But an abstract class can be used as a
+reference type.
+
+
+===============================================================================
+RUNTIME POLYMORPHISM CONNECTION
+===============================================================================
+
+Example:
+
+    Animal a = new Dog();
+
+    a.sound();
+
+
+Reference type:
+
+    Animal
+
+
+Actual object:
+
+    Dog
+
+
+Dog's overridden method executes.
+
+Therefore:
+
+    Abstraction
+        ↓
+    Inheritance
+        ↓
+    Overriding
+        ↓
+    Runtime Polymorphism
+
+
+This connection is VERY important for interviews.
+
+
+===============================================================================
+INTERFACE
+===============================================================================
+
+Interface is another mechanism for abstraction.
+
+Example:
+
+interface Animal {
+
+    void sound();
+
+}
+
+
+Class:
+
+class Dog implements Animal {
+
+    @Override
+    public void sound() {
+
+        System.out.println("Bark");
+
+    }
+
+}
+
+
+Keyword:
+
+    implements
+
+
+A class can implement multiple interfaces:
+
+class SmartPhone implements Camera, MusicPlayer {
+
+}
+
+
+This is one reason interfaces are important in Java.
+
+
+===============================================================================
+ABSTRACT CLASS vs INTERFACE
+===============================================================================
+
+Abstract Class:
+
+    abstract class Animal {
+
+        abstract void sound();
+
+        void eat() {
+            System.out.println("Eating");
+        }
+
+    }
+
+
+Interface:
+
+    interface Animal {
+
+        void sound();
+
+    }
+
+
+Remember the broad distinction:
+
+    Abstract class
+        ↓
+    Common base + partial implementation
+
+
+    Interface
+        ↓
+    Contract / common behavior that classes agree to implement
+
+
+Inheritance rule:
+
+    One class can extend ONE class.
+
+    One class can implement MULTIPLE interfaces.
+
+
+===============================================================================
+ABSTRACTION vs ENCAPSULATION
+===============================================================================
+
+ABSTRACTION:
+
+    Focus:
+        Hide implementation details.
+
+    Question:
+        WHAT should the user see?
+
+
+ENCAPSULATION:
+
+    Focus:
+        Protect/control data.
+
+    Question:
+        HOW should the data be accessed?
+
+
+Example:
+
+    Abstraction:
+
+        payment.pay()
+        ↓
+        payment implementation hidden
+
+
+    Encapsulation:
+
+        private balance
+        ↓
+        getter/setter
+
+
+Remember:
+
+    Abstraction  → Hides implementation
+
+    Encapsulation → Protects/hides data
+
+
+===============================================================================
+INTERVIEW/OA QUICK CHECK
+===============================================================================
+
+Q: Can we create an object of an abstract class?
+
+    NO
+
+
+Q: Can an abstract class have a constructor?
+
+    YES
+
+
+Q: Can an abstract class have concrete methods?
+
+    YES
+
+
+Q: Can an abstract class have variables?
+
+    YES
+
+
+Q: Can an abstract class have abstract methods?
+
+    YES
+
+
+Q: What happens if a child doesn't implement an abstract method?
+
+    The child must also be abstract.
+
+
+Q: Can an abstract class reference point to a child object?
+
+    YES
+
+    Animal a = new Dog();
+
+
+Q: How do we declare an abstract method?
+
+    abstract void sound();
+
+
+Q: What keyword is used to inherit an abstract class?
+
+    extends
+
+
+Q: What keyword is used with an interface?
+
+    implements
+
+
+Q: Can a class implement multiple interfaces?
+
+    YES
+
+
+===============================================================================
+QUICK REVISION
+===============================================================================
+
+                    ABSTRACTION
+                         |
+              Hide implementation
+                         |
+               Show essential part
+                         |
+             ┌───────────┴───────────┐
+             ↓                       ↓
+      ABSTRACT CLASS             INTERFACE
+             |                       |
+       abstract method           contract
+       concrete method              |
+       variables                    |
+       constructor                  |
+             |                       |
+             ↓                       ↓
+          extends                implements
+             |                       |
+             └───────────┬───────────┘
+                         ↓
+                   Polymorphism
+
+
+KEYWORDS:
+
+    abstract
+    extends
+    implements
+    @Override
+    super
+
+
+MOST IMPORTANT CONNECTION:
+
+    Abstraction
+         ↓
+    Inheritance
+         ↓
+    Method Overriding
+         ↓
+    Runtime Polymorphism
+
+
+===============================================================================
+*/
