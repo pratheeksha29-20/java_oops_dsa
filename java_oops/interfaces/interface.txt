@@ -1,0 +1,692 @@
+/*
+===============================================================================
+                         INTERFACE IN JAVA
+===============================================================================
+
+An interface is a blueprint / contract that defines what a class must do.
+
+It mainly helps achieve:
+
+    1. Abstraction
+    2. Multiple inheritance of behavior
+
+Syntax:
+
+interface InterfaceName {
+
+    void method();
+
+}
+
+A class implements an interface using:
+
+class ClassName implements InterfaceName {
+
+    @Override
+    public void method() {
+
+        // implementation
+
+    }
+
+}
+
+
+===============================================================================
+1. BASIC INTERFACE
+===============================================================================
+
+Example:
+
+interface Animal {
+
+    void sound();
+
+}
+
+Here:
+
+    sound()
+       ↓
+    abstract method
+
+The interface tells the implementing class:
+
+    "You must provide sound()."
+
+
+===============================================================================
+2. IMPLEMENTING AN INTERFACE
+===============================================================================
+
+class Dog implements Animal {
+
+    @Override
+    public void sound() {
+
+        System.out.println("Bark");
+
+    }
+
+}
+
+
+IMPORTANT:
+
+The implementing method must be public.
+
+Why?
+
+Interface methods are public by default.
+
+
+===============================================================================
+3. INTERFACE VARIABLES
+===============================================================================
+
+Variables declared inside an interface are automatically:
+
+    public
+    static
+    final
+
+
+Example:
+
+interface Test {
+
+    int VALUE = 10;
+
+}
+
+
+This is effectively:
+
+public static final int VALUE = 10;
+
+
+Therefore:
+
+    Test.VALUE
+
+can be accessed using the interface name.
+
+
+Because it is final:
+
+    VALUE = 20;       // ERROR
+
+
+===============================================================================
+4. INTERFACE METHODS
+===============================================================================
+
+Traditional interface method:
+
+    void display();
+
+
+This is automatically:
+
+    public abstract void display();
+
+
+The implementing class provides the body.
+
+
+===============================================================================
+5. MULTIPLE INTERFACES
+===============================================================================
+
+A class can implement multiple interfaces.
+
+Example:
+
+interface Camera {
+
+    void takePhoto();
+
+}
+
+
+interface MusicPlayer {
+
+    void playMusic();
+
+}
+
+
+class SmartPhone implements Camera, MusicPlayer {
+
+    public void takePhoto() {
+
+        System.out.println("Photo");
+
+    }
+
+    public void playMusic() {
+
+        System.out.println("Music");
+
+    }
+
+}
+
+
+This is one way Java supports multiple inheritance.
+
+A class cannot:
+
+    extend ClassA, ClassB
+
+but can:
+
+    implement InterfaceA, InterfaceB
+
+
+===============================================================================
+6. INTERFACE + ABSTRACTION
+===============================================================================
+
+Interface tells:
+
+    WHAT should be done.
+
+Implementing class tells:
+
+    HOW it should be done.
+
+
+Example:
+
+interface Payment {
+
+    void pay();
+
+}
+
+
+class UPI implements Payment {
+
+    public void pay() {
+
+        System.out.println("Pay using UPI");
+
+    }
+
+}
+
+
+class Card implements Payment {
+
+    public void pay() {
+
+        System.out.println("Pay using Card");
+
+    }
+
+}
+
+
+Both provide pay(), but their implementations are different.
+
+
+===============================================================================
+7. INTERFACE REFERENCE
+===============================================================================
+
+An interface can be used as a reference type.
+
+Example:
+
+Payment p = new UPI();
+
+p.pay();
+
+
+Reference type:
+
+    Payment
+
+Actual object:
+
+    UPI
+
+
+At runtime:
+
+    UPI's pay()
+        ↓
+    executes
+
+
+This also demonstrates runtime polymorphism.
+
+
+===============================================================================
+8. DEFAULT METHODS
+===============================================================================
+
+Java 8 introduced default methods.
+
+A default method has a body.
+
+Example:
+
+interface Vehicle {
+
+    default void start() {
+
+        System.out.println("Vehicle started");
+
+    }
+
+}
+
+
+A class implementing Vehicle automatically gets the default implementation.
+
+
+===============================================================================
+9. STATIC METHODS
+===============================================================================
+
+Interfaces can contain static methods.
+
+Static interface methods are called using:
+
+    InterfaceName.methodName();
+
+
+Example:
+
+interface Vehicle {
+
+    static void info() {
+
+        System.out.println("Vehicle interface");
+
+    }
+
+}
+
+
+Call:
+
+Vehicle.info();
+
+
+IMPORTANT:
+
+Static interface methods are NOT inherited by implementing classes.
+
+
+===============================================================================
+10. PRIVATE METHODS
+===============================================================================
+
+Java 9 introduced private methods inside interfaces.
+
+Private interface methods:
+
+    • Can have a body.
+    • Can only be accessed inside the interface.
+    • Cannot be accessed by implementing classes.
+    • Cannot be overridden.
+
+
+Example:
+
+interface Vehicle {
+
+    private void startEngine() {
+
+        System.out.println("Engine started");
+
+    }
+
+
+    default void drive() {
+
+        startEngine();
+
+        System.out.println("Vehicle driving");
+
+    }
+
+}
+
+
+The private method helps reuse internal logic inside the interface.
+
+
+===============================================================================
+11. FUNCTIONAL INTERFACE
+===============================================================================
+
+A functional interface contains exactly ONE abstract method.
+
+Example:
+
+@FunctionalInterface
+interface Calculator {
+
+    int calculate(int a, int b);
+
+}
+
+
+Functional interfaces are commonly used with:
+
+    • Lambda expressions
+    • Method references
+
+
+We will study this more when we reach Java 8 features.
+
+
+===============================================================================
+12. EXTENDING INTERFACES
+===============================================================================
+
+An interface can extend another interface.
+
+Syntax:
+
+interface B extends A {
+
+}
+
+
+Example:
+
+interface A {
+
+    void method1();
+
+}
+
+
+interface B extends A {
+
+    void method2();
+
+}
+
+
+Now B contains:
+
+    method1()
+    method2()
+
+
+A class implementing B must implement BOTH.
+
+
+===============================================================================
+13. CLASS vs INTERFACE
+===============================================================================
+
+CLASS:
+
+    class Dog {
+
+    }
+
+
+INTERFACE:
+
+    interface Animal {
+
+    }
+
+
+Inheritance:
+
+    class Dog extends AnimalClass
+
+
+Implementation:
+
+    class Dog implements AnimalInterface
+
+
+IMPORTANT:
+
+    Class → can extend ONE class.
+
+    Class → can implement MULTIPLE interfaces.
+
+    Interface → can extend MULTIPLE interfaces.
+
+
+===============================================================================
+14. INTERFACE vs ABSTRACT CLASS
+===============================================================================
+
+ABSTRACT CLASS:
+
+    abstract class Animal {
+
+        abstract void sound();
+
+        void eat() {
+
+        }
+
+    }
+
+
+INTERFACE:
+
+    interface Animal {
+
+        void sound();
+
+    }
+
+
+Broad idea:
+
+    Abstract class
+        ↓
+    Common base + shared implementation
+
+
+    Interface
+        ↓
+    Contract / capability
+
+
+===============================================================================
+15. INTERFACE AND MULTIPLE INHERITANCE
+===============================================================================
+
+Java does NOT support:
+
+class C extends A, B
+
+because multiple class inheritance can create ambiguity.
+
+
+But Java supports:
+
+interface A {
+
+    void methodA();
+
+}
+
+
+interface B {
+
+    void methodB();
+
+}
+
+
+class C implements A, B {
+
+    public void methodA() {
+
+    }
+
+    public void methodB() {
+
+    }
+
+}
+
+
+Therefore:
+
+    Multiple interfaces
+          ↓
+    One implementing class
+
+
+===============================================================================
+16. IMPORTANT KEYWORDS
+===============================================================================
+
+interface
+
+    → creates an interface
+
+
+implements
+
+    → class implements an interface
+
+
+extends
+
+    → interface extends another interface
+
+
+default
+
+    → default method with implementation
+
+
+static
+
+    → static interface method
+
+
+private
+
+    → private helper method inside interface
+
+
+@Override
+
+    → indicates method implementation/overriding
+
+
+===============================================================================
+17. IMPORTANT RULES
+===============================================================================
+
+1. Interface cannot be instantiated directly.
+
+        Animal a = new Animal();      // ERROR
+
+
+2. A class implements an interface using:
+
+        implements
+
+
+3. A class must implement all abstract methods of an interface.
+
+4. Interface variables are public, static and final by default.
+
+5. Traditional interface methods are public and abstract by default.
+
+6. Interfaces can have default methods.
+
+7. Interfaces can have static methods.
+
+8. Java 9+ interfaces can have private methods.
+
+9. A class can implement multiple interfaces.
+
+10. An interface can extend another interface.
+
+11. An interface cannot extend a class.
+
+12. A class cannot implement a class.
+
+
+===============================================================================
+18. QUICK REVISION
+===============================================================================
+
+                         INTERFACE
+                              |
+                    Defines a CONTRACT
+                              |
+                    What should be done?
+                              |
+                 ┌────────────┴────────────┐
+                 ↓                         ↓
+          Abstract methods          Default methods
+                 |                    Static methods
+                 |                    Private methods
+                 ↓
+             implements
+                 ↓
+              Class
+                 |
+             provides
+          implementation
+
+
+IMPORTANT:
+
+    interface  → defines contract
+
+    implements → class follows contract
+
+    extends    → interface inherits interface
+
+
+MULTIPLE INHERITANCE:
+
+    class C implements A, B
+
+                    ↓
+
+            C gets capabilities
+              of A and B
+
+
+RUNTIME POLYMORPHISM:
+
+    Payment p = new UPI();
+
+    p.pay();
+
+
+===============================================================================
+INTERVIEW MEMORY TRICK
+===============================================================================
+
+Interface = CONTRACT
+
+implements = "I promise to provide these methods"
+
+extends = "I inherit from"
+
+abstract method = "You must implement me"
+
+default method = "I already have an implementation"
+
+static method = "Call me using interface name"
+
+private method = "Only the interface itself can use me"
+
+
+===============================================================================
+*/

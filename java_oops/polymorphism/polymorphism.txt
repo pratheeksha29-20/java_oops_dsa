@@ -1,0 +1,742 @@
+/*
+===============================================================================
+                         POLYMORPHISM IN JAVA
+===============================================================================
+
+Definition
+----------
+
+Polymorphism means:
+
+                    "MANY FORMS"
+
+It allows the same method / interface to behave differently depending
+on the situation or object involved.
+
+Java mainly has TWO types:
+
+1. Compile-Time Polymorphism
+2. Runtime Polymorphism
+
+
+===============================================================================
+1. COMPILE-TIME POLYMORPHISM
+===============================================================================
+
+Also called:
+
+    Static Polymorphism
+
+
+Mainly achieved using:
+
+    METHOD OVERLOADING
+
+
+The compiler decides which method should be called during compilation.
+
+
+Example:
+
+    add(int, int)
+
+    add(int, int, int)
+
+    add(double, double)
+
+
+Same method name:
+
+    add()
+
+Different parameter lists.
+
+Therefore:
+
+    METHOD OVERLOADING
+
+
+===============================================================================
+2. METHOD OVERLOADING
+===============================================================================
+
+Method overloading means:
+
+    Same method name
+            +
+    Different parameter list
+
+
+Parameters can differ by:
+
+1. Number of parameters
+
+    add(int, int)
+
+    add(int, int, int)
+
+
+2. Type of parameters
+
+    add(int, int)
+
+    add(double, double)
+
+
+3. Order of parameters
+
+    method(int, double)
+
+    method(double, int)
+
+
+IMPORTANT:
+
+Changing ONLY the return type is NOT method overloading.
+
+
+Invalid example:
+
+    int add(int a, int b)
+
+    double add(int a, int b)
+
+
+The parameter lists are exactly the same.
+
+Therefore, this is NOT valid overloading.
+
+
+===============================================================================
+3. RUNTIME POLYMORPHISM
+===============================================================================
+
+Also called:
+
+    Dynamic Polymorphism
+
+
+Achieved using:
+
+    METHOD OVERRIDING
+
+
+The method to execute is determined during runtime.
+
+It depends on the:
+
+    ACTUAL OBJECT
+
+
+Example:
+
+    Parent p = new Child();
+
+    p.show();
+
+
+Reference type:
+
+    Parent
+
+
+Actual object:
+
+    Child
+
+
+If Child overrides show(),
+
+Child's show() executes.
+
+
+===============================================================================
+4. METHOD OVERRIDING
+===============================================================================
+
+Method overriding occurs when:
+
+    Parent class
+        ↓
+    contains a method
+        ↓
+    Child class inherits it
+        ↓
+    Child provides its own implementation
+
+
+Example:
+
+    class Parent {
+
+        void show() {
+            System.out.println("Parent");
+        }
+    }
+
+
+    class Child extends Parent {
+
+        @Override
+        void show() {
+            System.out.println("Child");
+        }
+    }
+
+
+The child version replaces the parent's implementation
+when the object is actually a Child.
+
+
+===============================================================================
+5. PARENT REFERENCE → CHILD OBJECT
+===============================================================================
+
+VERY IMPORTANT INTERVIEW CONCEPT.
+
+
+    Parent p = new Child();
+
+
+Here:
+
+    Reference type = Parent
+
+    Actual object = Child
+
+
+When we call:
+
+    p.show();
+
+
+Java checks the actual object at runtime.
+
+Actual object is:
+
+    Child
+
+
+Therefore:
+
+    Child's show()
+        ↓
+    executes
+
+
+This is called:
+
+    Runtime Method Dispatch
+
+or
+
+    Dynamic Method Dispatch
+
+
+===============================================================================
+6. REFERENCE TYPE vs OBJECT TYPE
+===============================================================================
+
+Example:
+
+    Parent p = new Child();
+
+
+REFERENCE TYPE:
+
+    Parent
+
+
+The reference type determines:
+
+    Which members are accessible
+    through the reference.
+
+
+ACTUAL OBJECT:
+
+    Child
+
+
+The actual object determines:
+
+    Which overridden method executes
+    at runtime.
+
+
+MEMORY TRICK:
+
+    Reference → What can I access?
+
+    Object → Which overridden method runs?
+
+
+===============================================================================
+7. SAME REFERENCE, DIFFERENT OBJECT
+===============================================================================
+
+Example:
+
+    Parent p;
+
+    p = new Child();
+    p.show();
+
+
+    p = new ChildTwo();
+    p.show();
+
+
+Same reference:
+
+    p
+
+
+Different objects:
+
+    Child
+    ChildTwo
+
+
+Therefore:
+
+    p.show()
+
+
+can produce different outputs.
+
+
+This is polymorphism.
+
+
+===============================================================================
+8. INTERFACE + POLYMORPHISM
+===============================================================================
+
+Polymorphism also works with interfaces.
+
+
+Example:
+
+    interface Payment {
+
+        void pay();
+
+    }
+
+
+    class UPI implements Payment {
+
+        public void pay() {
+            System.out.println("UPI");
+        }
+    }
+
+
+    class Card implements Payment {
+
+        public void pay() {
+            System.out.println("Card");
+        }
+    }
+
+
+Now:
+
+    Payment p = new UPI();
+
+    p.pay();
+
+
+Output:
+
+    UPI
+
+
+Change object:
+
+    p = new Card();
+
+    p.pay();
+
+
+Output:
+
+    Card
+
+
+Same reference type:
+
+    Payment
+
+
+Different actual objects:
+
+    UPI
+    Card
+
+
+Different behavior.
+
+
+===============================================================================
+9. POLYMORPHISM + ABSTRACTION
+===============================================================================
+
+Polymorphism commonly works with:
+
+    • Abstract classes
+    • Interfaces
+
+
+Example:
+
+    Animal a = new Dog();
+
+    a.sound();
+
+
+Animal:
+
+    Defines common behavior.
+
+
+Dog:
+
+    Provides implementation.
+
+
+The actual Dog object decides which overridden
+method executes.
+
+
+Therefore:
+
+    Abstraction
+        +
+    Inheritance
+        +
+    Overriding
+        +
+    Runtime Polymorphism
+
+
+===============================================================================
+10. OVERLOADING vs OVERRIDING
+===============================================================================
+
+
+                OVERLOADING
+                ------------
+
+    Same method name
+
+            +
+
+    Different parameters
+
+            +
+
+    Usually within same class
+
+            +
+
+    Compile-time decision
+
+
+Example:
+
+    add(int, int)
+
+    add(int, int, int)
+
+
+
+                OVERRIDING
+                -----------
+
+    Parent + Child
+
+            +
+
+    Same method signature
+
+            +
+
+    Different implementation
+
+            +
+
+    Runtime decision
+
+
+Example:
+
+    Parent.show()
+
+    Child.show()
+
+
+===============================================================================
+11. @Override
+===============================================================================
+
+@Override tells the compiler:
+
+    "I am trying to override a parent method."
+
+
+Example:
+
+    @Override
+    void show() {
+
+        System.out.println("Child");
+
+    }
+
+
+If the method does not correctly override
+a parent method, the compiler reports an error.
+
+
+It is not compulsory to write @Override,
+but it is strongly recommended.
+
+
+===============================================================================
+12. IMPORTANT OVERRIDING RULES
+===============================================================================
+
+1. Method name must be the same.
+
+2. Parameter list must be the same.
+
+3. Return type must be the same or compatible.
+
+4. Child cannot reduce the access level of the method.
+
+5. Static methods are NOT overridden.
+   They are hidden.
+
+6. Constructors cannot be overridden.
+
+7. Private methods are not overridden because
+   they are not inherited.
+
+
+===============================================================================
+13. WHY POLYMORPHISM IS USEFUL
+===============================================================================
+
+Polymorphism provides:
+
+    • Code reusability
+    • Flexibility
+    • Maintainability
+    • Dynamic behavior
+    • Ability to use a common parent/interface
+      for different objects
+
+
+Example:
+
+    Payment p;
+
+    p = new UPI();
+    p.pay();
+
+    p = new Card();
+    p.pay();
+
+
+We don't need to write completely separate
+calling logic for every payment type.
+
+
+===============================================================================
+14. REAL-LIFE EXAMPLE
+===============================================================================
+
+                    Payment
+                       |
+             ┌─────────┴─────────┐
+             ↓                   ↓
+            UPI                 Card
+             |                   |
+          pay()               pay()
+
+
+Both have:
+
+    pay()
+
+
+But implementation differs.
+
+
+UPI:
+
+    pay() → UPI payment
+
+
+Card:
+
+    pay() → Card payment
+
+
+Therefore:
+
+    Payment p = new UPI();
+
+    p.pay();
+
+
+and:
+
+    Payment p = new Card();
+
+    p.pay();
+
+
+Same method call.
+
+Different behavior.
+
+
+===============================================================================
+15. IMPORTANT INTERVIEW QUESTION
+===============================================================================
+
+Question:
+
+    Parent p = new Child();
+
+    p.show();
+
+
+Which show() executes?
+
+
+Answer:
+
+    Child's show()
+
+
+WHY?
+
+Because runtime polymorphism depends on the
+actual object type.
+
+
+Reference:
+
+    Parent
+
+
+Object:
+
+    Child
+
+
+Therefore:
+
+    Child's overridden method executes.
+
+
+===============================================================================
+16. ADVANTAGES
+===============================================================================
+
+• Code Reusability
+
+  Same method/interface can work with different objects.
+
+
+• Flexibility
+
+  Different objects can be treated using a common type.
+
+
+• Abstraction
+
+  We can work with general parent/interface types.
+
+
+• Dynamic Behavior
+
+  Runtime decides which overridden method executes.
+
+
+===============================================================================
+17. QUICK REVISION
+===============================================================================
+
+                    POLYMORPHISM
+                          |
+                "MANY FORMS"
+                          |
+             ┌────────────┴────────────┐
+             ↓                         ↓
+      COMPILE-TIME                 RUNTIME
+             |                         |
+       OVERLOADING                 OVERRIDING
+             |                         |
+      Same method name          Parent + Child
+             |                         |
+      Different parameters      Same signature
+             |                         |
+      Compiler decides           Runtime decides
+
+
+===============================================================================
+MEMORY TRICK
+===============================================================================
+
+OVERLOADING
+
+    Same name
+        +
+    Different parameters
+        ↓
+    Compile Time
+
+
+OVERRIDING
+
+    Parent + Child
+        +
+    Same signature
+        ↓
+    Runtime
+
+
+MOST IMPORTANT PATTERN:
+
+    Parent p = new Child();
+
+        ↓
+
+    Reference = Parent
+
+    Object = Child
+
+        ↓
+
+    Child's overridden method executes
+
+
+===============================================================================
+ONE-LINE REVISION
+===============================================================================
+
+Polymorphism = Same interface/method call,
+               different behavior.
+
+Overloading = Compile time.
+
+Overriding = Runtime.
+
+
+===============================================================================
+*/
