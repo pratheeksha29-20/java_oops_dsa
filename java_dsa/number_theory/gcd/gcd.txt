@@ -1,0 +1,562 @@
+# GCD — Greatest Common Divisor
+
+## 1. What is GCD?
+
+GCD(a, b) is the largest positive integer that divides both a and b.
+
+Example:
+
+GCD(12, 18) = 6
+
+Because:
+12 = 6 × 2
+18 = 6 × 3
+
+--------------------------------------------------
+
+## 2. Main Technique — Euclidean Algorithm
+
+Instead of checking every number from 1 to min(a,b), use:
+
+GCD(a, b) = GCD(b, a % b)
+
+Keep replacing:
+
+(a, b) → (b, a % b)
+
+until:
+
+b == 0
+
+Then:
+
+GCD = a
+
+Example:
+
+GCD(12, 18)
+
+12 % 18 = 12
+18 % 12 = 6
+12 % 6 = 0
+
+Therefore:
+
+GCD = 6
+
+--------------------------------------------------
+
+## 3. Why does Euclidean Algorithm work?
+
+Suppose:
+
+a = b × q + r
+
+Any number that divides both a and b
+will also divide:
+
+a - b × q = r
+
+Therefore:
+
+GCD(a, b) = GCD(b, r)
+
+Since:
+
+r = a % b
+
+we get:
+
+GCD(a, b) = GCD(b, a % b)
+
+--------------------------------------------------
+
+## 4. Java Implementation
+
+static int gcd(int a, int b) {
+
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+Important pattern:
+
+int temp = b;
+b = a % b;
+a = temp;
+
+This represents:
+
+(a, b) → (b, a % b)
+
+--------------------------------------------------
+
+## 5. Trace
+
+Example:
+
+a = 48
+b = 18
+
+Iteration 1:
+
+temp = 18
+b = 48 % 18 = 12
+a = 18
+
+Now:
+
+a = 18
+b = 12
+
+Iteration 2:
+
+temp = 12
+b = 18 % 12 = 6
+a = 12
+
+Now:
+
+a = 12
+b = 6
+
+Iteration 3:
+
+temp = 6
+b = 12 % 6 = 0
+a = 6
+
+Now:
+
+a = 6
+b = 0
+
+Stop.
+
+Answer = 6
+
+--------------------------------------------------
+
+## 6. GCD of an Array
+
+To find GCD of all elements:
+
+nums = [12, 18, 24]
+
+First:
+
+g = 12
+
+Then:
+
+g = GCD(12, 18)
+  = 6
+
+Then:
+
+g = GCD(6, 24)
+  = 6
+
+Answer = 6
+
+Java:
+
+int g = nums[0];
+
+for (int i = 1; i < nums.length; i++) {
+    g = gcd(g, nums[i]);
+}
+
+return g;
+
+Pattern:
+
+g = first element
+
+for every next element:
+    g = gcd(g, nums[i])
+
+--------------------------------------------------
+
+## 7. GCD of Minimum and Maximum
+
+Some problems ask for:
+
+GCD(minimum element, maximum element)
+
+Example:
+
+nums = [2, 5, 6, 9, 10]
+
+min = 2
+max = 10
+
+GCD(2, 10) = 2
+
+Java:
+
+int min = nums[0];
+int max = nums[0];
+
+for (int x : nums) {
+    min = Math.min(min, x);
+    max = Math.max(max, x);
+}
+
+return gcd(min, max);
+
+--------------------------------------------------
+
+## 8. Coprime Numbers
+
+Two numbers are coprime if:
+
+GCD(a, b) = 1
+
+Example:
+
+GCD(8, 15) = 1
+
+Therefore 8 and 15 are coprime.
+
+This becomes important in:
+
+- Modular Inverse
+- Number Theory
+- Modular Arithmetic
+
+--------------------------------------------------
+
+## 9. GCD and LCM
+
+Relationship:
+
+GCD(a,b) × LCM(a,b) = a × b
+
+Therefore:
+
+LCM(a,b) = (a / GCD(a,b)) × b
+
+Prefer:
+
+(a / gcd) * b
+
+instead of:
+
+(a * b) / gcd
+
+because multiplication can overflow earlier.
+
+Java:
+
+static long lcm(long a, long b) {
+
+    return (a / gcd(a, b)) * b;
+
+}
+
+--------------------------------------------------
+
+## 10. GCD of Strings
+
+LeetCode 1071 — Greatest Common Divisor of Strings
+
+Idea:
+
+If two strings are made from the same repeating pattern:
+
+str1 + str2 == str2 + str1
+
+Then:
+
+GCD(length of str1, length of str2)
+
+gives the length of the answer.
+
+Example:
+
+str1 = "ABCABC"
+str2 = "ABC"
+
+str1 + str2:
+"ABCABCABC"
+
+str2 + str1:
+"ABCABCABC"
+
+They are equal.
+
+Lengths:
+
+6 and 3
+
+GCD(6,3) = 3
+
+Answer:
+
+str1.substring(0, 3)
+
+= "ABC"
+
+Java:
+
+if (!(str1 + str2).equals(str2 + str1)) {
+    return "";
+}
+
+int n = str1.length();
+int m = str2.length();
+
+while (m != 0) {
+    int temp = m;
+    m = n % m;
+    n = temp;
+}
+
+return str1.substring(0, n);
+
+--------------------------------------------------
+
+## 11. Common Problem Patterns
+
+Whenever you see:
+
+### Pattern 1:
+"Find greatest common divisor"
+
+→ Euclidean Algorithm
+
+--------------------------------------------------
+
+### Pattern 2:
+"Find GCD of all elements"
+
+→ Repeated GCD
+
+g = nums[0]
+
+for each element:
+    g = gcd(g, nums[i])
+
+--------------------------------------------------
+
+### Pattern 3:
+"Find GCD of minimum and maximum"
+
+→ Find min
+→ Find max
+→ gcd(min, max)
+
+--------------------------------------------------
+
+### Pattern 4:
+"Check whether two numbers are coprime"
+
+→ gcd(a,b) == 1
+
+--------------------------------------------------
+
+### Pattern 5:
+"Find LCM"
+
+→ Use GCD
+
+LCM = (a / gcd(a,b)) * b
+
+--------------------------------------------------
+
+### Pattern 6:
+"Common repeating pattern in strings"
+
+→ Check:
+
+str1 + str2 == str2 + str1
+
+→ GCD of lengths
+
+→ Take prefix of GCD length
+
+--------------------------------------------------
+
+## 12. Complexity
+
+Euclidean GCD:
+
+Time: O(log(min(a,b)))
+Space: O(1)
+
+GCD of N numbers:
+
+Time: O(N log M)
+
+where M is approximately the largest number.
+
+Finding min and max:
+
+Time: O(N)
+Space: O(1)
+
+GCD of strings:
+
+String concatenation/comparison:
+O(n + m)
+
+GCD of lengths:
+O(log(min(n,m)))
+
+Overall:
+O(n + m)
+
+--------------------------------------------------
+
+## 13. Java Methods Used
+
+Math.min(a, b)
+→ returns smaller value
+
+Math.max(a, b)
+→ returns larger value
+
+String.length()
+→ returns string length
+
+String.substring(start, end)
+→ end index is EXCLUDED
+
+String.equals(other)
+→ compares string CONTENT
+
+Important:
+
+Do NOT use:
+
+str1 == str2
+
+for checking String contents.
+
+Use:
+
+str1.equals(str2)
+
+--------------------------------------------------
+
+## 14. Extended Euclidean Algorithm
+
+Normal GCD gives:
+
+gcd(a,b)
+
+Extended Euclid gives:
+
+a × x + b × y = gcd(a,b)
+
+Example:
+
+30 and 18
+
+GCD = 6
+
+6 = 30(-1) + 18(2)
+
+Therefore:
+
+x = -1
+y = 2
+
+Main use:
+
+→ Modular Inverse
+
+If:
+
+gcd(a,m) = 1
+
+Extended Euclid can find x such that:
+
+a × x ≡ 1 (mod m)
+
+--------------------------------------------------
+
+## 15. Recognition Cheat Sheet
+
+Question says:
+
+"greatest divisor"
+        ↓
+GCD
+
+"common divisor"
+        ↓
+GCD
+
+"coprime"
+        ↓
+GCD == 1
+
+"GCD of array"
+        ↓
+Repeated GCD
+
+"minimum and maximum"
+        ↓
+gcd(min,max)
+
+"LCM"
+        ↓
+GCD
+
+"common repeating string"
+        ↓
+String concatenation check
++
+GCD of lengths
+
+"modular inverse"
+        ↓
+Extended Euclid
+
+--------------------------------------------------
+
+## 16. Problems Practiced
+
+1. LeetCode 1979
+   Find Greatest Common Divisor of Array
+
+2. LeetCode 1071
+   Greatest Common Divisor of Strings
+
+--------------------------------------------------
+
+## 17. Most Important Things to Memorize
+
+Euclidean Algorithm:
+
+while (b != 0) {
+    int temp = b;
+    b = a % b;
+    a = temp;
+}
+
+return a;
+
+Core transformation:
+
+(a,b) → (b,a%b)
+
+String GCD:
+
+(str1 + str2).equals(str2 + str1)
+
+Extended Euclid:
+
+a*x + b*y = gcd(a,b)
+
+Complexity:
+
+GCD → O(log(min(a,b)))
+Space → O(1)
