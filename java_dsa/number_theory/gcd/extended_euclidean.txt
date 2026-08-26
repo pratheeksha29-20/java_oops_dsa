@@ -1,0 +1,41 @@
+EXTENDED EUCLIDEAN ALGORITHM
+============================
+
+Normal GCD:
+gcd(a,b)
+
+Extended GCD:
+a*x + b*y = gcd(a,b)
+
+Returns:
+gcd, x, y
+
+Base case:
+if (b == 0)
+    x = 1
+    y = 0
+    return a
+
+Recursive:
+extendedGCD(b, a%b)
+
+Update:
+x = y1
+y = x1 - (a/b)*y1
+
+Main application:
+MODULAR INVERSE
+
+For inverse of a mod m:
+
+gcd(a,m) must be 1
+
+Extended Euclid gives:
+a*x + m*y = 1
+
+Therefore:
+x = modular inverse of a
+
+Complexity:
+Time  = O(log(min(a,b)))
+Space = O(log(min(a,b))) because of recursion
