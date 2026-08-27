@@ -1,0 +1,594 @@
+PRIME FACTORIZATION
+===================
+
+DEFINITION
+----------
+
+Prime factorization means expressing a number as a
+product of prime numbers.
+
+Example:
+
+    12 = 2 × 2 × 3
+
+    60 = 2 × 2 × 3 × 5
+
+    100 = 2 × 2 × 5 × 5
+
+
+CORE IDEA
+---------
+
+Start checking from the smallest possible prime factor.
+
+For every i:
+
+    If n % i == 0
+
+then i is a factor.
+
+Keep dividing n by i while i continues to divide n.
+
+After removing all smaller factors, if n > 1,
+the remaining n is itself a prime factor.
+
+
+BASIC ALGORITHM
+---------------
+
+1. Start i from 2.
+
+2. Check:
+
+       n % i == 0
+
+3. If true:
+
+       add i as a prime factor
+       n = n / i
+
+4. Keep doing this using while.
+
+5. Move to the next i.
+
+6. Stop when:
+
+       i * i > n
+
+7. If n > 1, add n as the final prime factor.
+
+
+CODE
+----
+
+for(int i = 2; i * i <= n; i++) {
+
+    while(n % i == 0) {
+
+        System.out.print(i + " ");
+
+        n = n / i;
+    }
+}
+
+if(n > 1) {
+    System.out.print(n);
+}
+
+
+WHY USE WHILE?
+--------------
+
+A prime factor can occur multiple times.
+
+Example:
+
+    12 = 2 × 2 × 3
+
+For i = 2:
+
+    12 % 2 == 0
+    print 2
+    n = 6
+
+    6 % 2 == 0
+    print 2
+    n = 3
+
+    3 % 2 != 0
+    stop
+
+Therefore:
+
+    2 2 3
+
+If we used only if:
+
+    if(n % i == 0)
+
+we would remove only one occurrence of 2.
+
+
+WHY n = n / i?
+--------------
+
+After finding a factor, remove it from n.
+
+Example:
+
+    n = 60
+    i = 2
+
+    60 / 2 = 30
+
+Again:
+
+    30 / 2 = 15
+
+Now 2 is no longer a factor.
+
+So:
+
+    n = 15
+
+
+WHY START FROM 2?
+-----------------
+
+2 is the smallest prime number.
+
+Every composite number has a prime factor
+that is at least 2.
+
+
+WHY i * i <= n?
+---------------
+
+We only need to check up to sqrt(n).
+
+If a number has a factor greater than sqrt(n),
+its corresponding factor must be smaller than sqrt(n).
+
+Example:
+
+    36 = 4 × 9
+
+    4 < sqrt(36)
+    9 > sqrt(36)
+
+Once the smaller factors have been checked,
+there is no need to continue beyond sqrt(n).
+
+
+IMPORTANT DIFFERENCE:
+---------------------
+
+Notice that n is changing during factorization.
+
+Example:
+
+    n = 60
+
+    i = 2
+    n becomes 30
+
+    i = 2
+    n becomes 15
+
+    i = 3
+    n becomes 5
+
+Therefore the loop condition:
+
+    i * i <= n
+
+uses the CURRENT value of n.
+
+This can make the loop finish earlier.
+
+
+WHY if(n > 1) AT THE END?
+-------------------------
+
+Sometimes a prime factor is left after the loop.
+
+Example:
+
+    n = 17
+
+Check:
+
+    i = 2
+    17 % 2 != 0
+
+    i = 3
+    17 % 3 != 0
+
+Since:
+
+    4 * 4 > 17
+
+the loop stops.
+
+17 is still left.
+
+Therefore:
+
+    if(n > 1)
+        add n
+
+So:
+
+    17
+
+is the prime factorization.
+
+
+EXAMPLE: 60
+-----------
+
+Start:
+
+    n = 60
+
+i = 2
+
+    60 % 2 == 0
+    factor = 2
+    n = 30
+
+    30 % 2 == 0
+    factor = 2
+    n = 15
+
+    15 % 2 != 0
+
+i = 3
+
+    15 % 3 == 0
+    factor = 3
+    n = 5
+
+Now:
+
+    3 * 3 <= 5
+
+is false.
+
+Loop ends.
+
+Remaining:
+
+    n = 5
+
+Therefore:
+
+    5 is also a prime factor.
+
+Final:
+
+    2 × 2 × 3 × 5
+
+
+EXAMPLE: 100
+------------
+
+100
+↓
+50
+↓
+25
+
+So:
+
+    2 × 2
+
+Then:
+
+    25 % 5 == 0
+    25 / 5 = 5
+
+Again:
+
+    5 / 5 = 1
+
+Therefore:
+
+    100 = 2 × 2 × 5 × 5
+
+
+EXAMPLE: PRIME NUMBER
+---------------------
+
+n = 13
+
+No number from 2 to sqrt(13) divides 13.
+
+At the end:
+
+    n = 13
+
+Since:
+
+    n > 1
+
+13 itself is the prime factor.
+
+Result:
+
+    13
+
+
+IMPORTANT JAVA OPERATORS
+-----------------------
+
+Remainder:
+
+    n % i
+
+Checks whether i divides n:
+
+    n % i == 0
+
+Division:
+
+    n / i
+
+Square-root alternative:
+
+    i * i <= n
+
+
+PATTERN RECOGNITION
+-------------------
+
+When the problem says:
+
+"Find prime factors"
+    → Prime Factorization
+
+"Find distinct prime factors"
+    → Prime Factorization + don't count duplicates
+
+"Find largest prime factor"
+    → Prime Factorization + keep largest factor
+
+"Sum of prime factors"
+    → Prime Factorization + sum the factors
+
+"Repeatedly replace n with sum of prime factors"
+    → Prime Factorization + simulation
+
+"Factorize many numbers"
+    → Consider SPF (Smallest Prime Factor)
+
+
+PRIME FACTORS VS FACTORS
+------------------------
+
+Factors of 12:
+
+    1, 2, 3, 4, 6, 12
+
+Prime factors of 12:
+
+    2, 2, 3
+
+Prime factors must themselves be prime.
+
+
+DISTINCT PRIME FACTORS
+----------------------
+
+Example:
+
+    60 = 2 × 2 × 3 × 5
+
+Prime factors:
+
+    2, 2, 3, 5
+
+Distinct prime factors:
+
+    2, 3, 5
+
+Count:
+
+    3
+
+
+SUM OF PRIME FACTORS
+--------------------
+
+Example:
+
+    60 = 2 × 2 × 3 × 5
+
+Sum:
+
+    2 + 2 + 3 + 5 = 12
+
+
+IMPORTANT PATTERN:
+------------------
+
+Prime factorization can be used to solve problems
+involving:
+
+    Divisors
+    Number of divisors
+    Sum of divisors
+    GCD / LCM
+    Prime factors
+    Distinct prime factors
+    Largest prime factor
+    Smallest prime factor
+    Perfect powers
+
+
+COMPLEXITY
+----------
+
+For one number:
+
+    Time  : O(sqrt(n))
+    Space : O(1)
+
+If factors are stored:
+
+    Extra space depends on number of factors.
+
+
+WHY IT IS EFFICIENT
+-------------------
+
+Brute force:
+
+    Check every number from 2 to n
+
+Better:
+
+    Check only up to sqrt(n)
+
+Even better for MANY numbers:
+
+    Use Sieve / Smallest Prime Factor (SPF)
+
+
+IMPORTANT TRICK
+---------------
+
+The most important code pattern:
+
+    for(int i = 2; i * i <= n; i++) {
+
+        while(n % i == 0) {
+
+            // use i
+
+            n /= i;
+        }
+    }
+
+    if(n > 1) {
+        // remaining prime
+    }
+
+
+COMMON MISTAKES
+---------------
+
+1. Using if instead of while
+
+Wrong for repeated factors:
+
+    if(n % i == 0)
+
+Use:
+
+    while(n % i == 0)
+
+
+2. Forgetting to divide n
+
+    n /= i
+
+must happen inside the while loop.
+
+
+3. Forgetting the remaining prime
+
+    if(n > 1)
+
+is important.
+
+
+4. Looping unnecessarily until n
+
+Use:
+
+    i * i <= n
+
+
+5. Confusing factors with prime factors.
+
+Example:
+
+    12 factors:
+    1, 2, 3, 4, 6, 12
+
+    12 prime factors:
+    2, 2, 3
+
+
+LEETCODE PROBLEMS
+-----------------
+
+LeetCode 2507
+Smallest Value After Replacing With Sum of Prime Factors
+
+Pattern:
+    Prime Factorization
+    +
+    Repeated simulation
+
+
+LeetCode 2521
+Distinct Prime Factors of Product of Array
+
+Pattern:
+    Prime Factorization
+    +
+    Distinct factors
+
+
+LeetCode 1492
+The kth Factor of n
+
+Related concept:
+    Factors / Divisors
+    sqrt(n)
+    Factor pairs
+
+
+LeetCode 1362
+Closest Divisors
+
+Related concept:
+    Factor pairs
+    sqrt(n)
+
+
+NEXT LEVEL
+----------
+
+For one number:
+
+    Basic Prime Factorization
+            ↓
+        O(sqrt(n))
+
+
+For many numbers:
+
+    Smallest Prime Factor (SPF)
+            ↓
+        Sieve
+            ↓
+    Fast factorization
+
+
+
+basic implementation
+
+    for(int i = 2; i * i <= n; i++) {
+
+    while(n % i == 0) {
+        // use i
+        n /= i;
+    }
+}
+
+if(n > 1) {
+    // remaining prime
+}
