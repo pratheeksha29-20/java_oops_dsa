@@ -1,0 +1,204 @@
+SIEVE OF ERATOSTHENES
+=====================
+
+PURPOSE
+-------
+Find all prime numbers up to a given limit efficiently.
+
+CORE IDEA
+---------
+Instead of checking every number individually:
+
+1. Assume all numbers are prime.
+2. Start from 2.
+3. If i is prime, mark all multiples of i as composite.
+4. Continue until sqrt(n).
+5. Remaining true values are prime.
+
+
+DATA STRUCTURE
+--------------
+boolean[] isPrime
+
+isPrime[i] = true
+→ i is prime
+
+isPrime[i] = false
+→ i is composite / not prime
+
+
+IMPLEMENTATION
+--------------
+
+boolean[] isPrime = new boolean[n];
+
+Arrays.fill(isPrime, true);
+
+isPrime[0] = false;
+isPrime[1] = false;
+
+for(int i = 2; i * i < n; i++){
+
+    if(isPrime[i]){
+
+        for(int j = i * i; j < n; j += i){
+            isPrime[j] = false;
+        }
+    }
+}
+
+
+IMPORTANT LOGIC
+---------------
+
+1. Why boolean[]?
+
+Used to store whether each number is prime or composite.
+
+2. Why start i from 2?
+
+2 is the first prime number.
+
+3. Why start marking from i * i?
+
+Smaller multiples have already been marked by smaller primes.
+
+Example:
+
+i = 5
+
+5*2 → already marked by 2
+5*3 → already marked by 3
+5*4 → already marked
+5*5 → first useful multiple
+
+Therefore:
+
+j = i * i
+
+
+4. Why j += i?
+
+To visit every multiple of i.
+
+For i = 3:
+
+9 → 12 → 15 → 18 → ...
+
+Therefore:
+
+j += i
+
+
+5. Why stop at sqrt(n)?
+
+Every composite number has at least one factor
+less than or equal to its square root.
+
+Therefore we only need to process i up to sqrt(n).
+
+
+IMPORTANT JAVA POINT
+-------------------
+
+If:
+
+boolean[] isPrime = new boolean[n];
+
+valid indexes are:
+
+0 ... n-1
+
+Therefore use:
+
+j < n
+
+NOT:
+
+j <= n
+
+Otherwise isPrime[n] causes ArrayIndexOutOfBoundsException.
+
+
+PATTERN RECOGNITION
+-------------------
+
+"Find all primes up to N"
+→ Sieve
+
+"Count primes below N"
+→ Sieve + count true values
+
+"Many prime queries"
+→ Build sieve once
+→ isPrime[x] gives answer in O(1)
+
+"Prime square / special number"
+→ Sieve up to sqrt(r)
+→ Find prime p
+→ Calculate p*p
+→ Check range
+
+"Prime factorization of many numbers"
+→ Sieve / SPF
+
+
+PROBLEMS PRACTICED
+------------------
+
+1. LeetCode 204 - Count Primes
+
+Pattern:
+Sieve → mark composites → count remaining primes
+
+2. Non-Special Number
+
+Observation:
+Special number = square of a prime
+
+Pattern:
+sqrt(r)
+→ Sieve
+→ find prime p
+→ p*p
+→ check [l,r]
+→ count special
+→ total - special
+
+
+COMPLEXITY
+----------
+
+Time  : O(n log log n)
+Space : O(n)
+
+
+QUICK REVISION
+--------------
+
+Sieve
+↓
+boolean[]
+↓
+assume all prime
+↓
+0,1 = false
+↓
+i up to sqrt(n)
+↓
+if i is prime
+↓
+mark i*i, i*i+i, i*i+2i...
+↓
+remaining true = primes
+
+
+KEY THINGS TO REMEMBER
+----------------------
+
+i       → current prime
+i*i     → first useful multiple
+j += i  → next multiple
+false   → composite
+
+Sieve = eliminate composites.
